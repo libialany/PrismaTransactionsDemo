@@ -1,5 +1,5 @@
-require('dotenv');
-const ENV = process.env.NODE_ENV || 'development';
+// require('dotenv');
+const ENV = "development"//process.env.NODE_ENV || 'development';
 
 module.exports = {
   [ENV]: {

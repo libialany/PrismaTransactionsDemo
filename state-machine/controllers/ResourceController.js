@@ -1,5 +1,5 @@
 const db = require(`../database/models/index.js`);
-const fsm = require('./stateMachine');
+const fsm = require("./stateMachine");
 
 /**
  * Class Resource Controller
@@ -13,7 +13,7 @@ class ResourceController {
     } catch (error) {
       res.json({
         success: false,
-        message: error.message || error
+        message: error.message || error,
       });
     }
   }
@@ -23,12 +23,29 @@ class ResourceController {
       const data = await db.Resource.create(req.body);
       res.json({
         success: true,
-        message: 'Resource created.'
+        message: "Resource created.",
       });
     } catch (error) {
       res.json({
         success: false,
-        message: error.message || error
+        message: error.message || error,
+      });
+    }
+  }
+  //listarSolitud por usuario
+  async getByUser(req, res) {
+    try {
+      const data = await db.Resource.findAll({
+        attributes: ["id","name","user","status"],
+        where: {
+          user: req.params.id,
+        },
+      });
+      res.json(data)
+    } catch (error) {
+      res.json({
+        success: false,
+        message: error.message || error,
       });
     }
   }
@@ -36,29 +53,33 @@ class ResourceController {
   async update(req, res) {
     try {
       const transition = req.body.transition;
+      console.log("transition>", transition);
       const data = await db.Resource.findByPk(req.params.id);
       //Update fsm object
       data.fsmUpdate(fsm);
-      console.log('Transitions possible: ', fsm.state, fsm.transitions());
+      console.log("Transitions possible: ", fsm.state, fsm.transitions());
       delete req.body.transition;
       //check transition possible
       if (fsm.can(transition)) {
         //Update fsm object
         fsm[transition]();
-        await db.Resource.update({
-          status: fsm.state
-        }, { where: { id: req.params.id } });
+        await db.Resource.update(
+          {
+            status: fsm.state,
+          },
+          { where: { id: req.params.id } }
+        );
         res.json({
           success: true,
-          message: 'Resource updated.'
+          message: "Resource updated.",
         });
       } else {
-        throw new Error('Invalid state transition');
+        throw new Error("Invalid state transition");
       }
     } catch (error) {
       res.json({
         success: false,
-        message: error.message || error
+        message: error.message || error,
       });
     }
   }
@@ -67,13 +88,13 @@ class ResourceController {
     try {
       const id = req.params.id;
       await db.Resource.destroy({
-        where: { id }
+        where: { id },
       });
-      res.send('Resource deleted.');
+      res.send("Resource deleted.");
     } catch (error) {
       res.json({
         success: false,
-        message: error.message || error
+        message: error.message || error,
       });
     }
   }

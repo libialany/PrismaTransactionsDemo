@@ -1,7 +1,7 @@
 const StateMachine = require('javascript-state-machine');
 
 let fsm = new StateMachine({
-  init: 'Initializing',
+  init: 'Initializing',//'3'
   transitions: [
     {
       name: 'updateState',
@@ -10,21 +10,30 @@ let fsm = new StateMachine({
         return n;
       }
     },
+    // {
+    //   name: 'queue', from: 'Initializing', to: 'Queued'
+    // },
     {
-      name: 'queue', from: 'Initializing', to: 'Queued'
+      name: 'create', from: 'Initializing', to: 'Created'
     },
     {
-      name: 'create', from: 'Queued', to: 'Created'
+      name: 'acepted', from: 'Created', to: 'Acepted'
     },
     {
-      name: 'start', from: 'Created', to: 'Running'
+      name: 'stop', from: ['Acepted','Created'], to: 'Stop'
     },
-    {
-      name: 'stop', from: ['Created', 'Running'], to: 'Stopping'
-    },
-    {
-      name: 'stopped', from: ['Initializing', 'Queued', 'Stopping'], to: 'Stopped'
-    }
+    // // {
+    // //   name: 'create', from: 'Queued', to: 'Created'
+    // // },
+    // {
+    //   name: 'start', from: 'Created', to: 'Running'
+    // },
+    // {
+    //   name: 'stop', from: ['Created', 'Running'], to: 'Stopping'
+    // },
+    // {
+    //   name: 'stopped', from: ['Initializing', 'Queued', 'Stopping'], to: 'Stopped'
+    // }
   ],
   methods: {
     onStopped: function() { console.log('State transition to Stopped') }

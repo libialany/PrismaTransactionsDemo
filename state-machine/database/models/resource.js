@@ -10,7 +10,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING
     },
-    status: {
+    user: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    status: { // enviado
       allowNull: false,
       type: DataTypes.STRING,
       defaultValue: 'Initializing'
