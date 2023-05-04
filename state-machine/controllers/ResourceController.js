@@ -53,7 +53,8 @@ class ResourceController {
   async update(req, res) {
     try {
       const transition = req.body.transition;
-      console.log("transition>", transition);
+      if(transition==="acepted" && req.body.id!="1")//id is ADMIN
+      throw new Error("Invalid action to the user");
       const data = await db.Resource.findByPk(req.params.id);
       //Update fsm object
       data.fsmUpdate(fsm);
