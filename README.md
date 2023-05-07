@@ -7,13 +7,15 @@ I wanted to apply more consistency in the creation of records in my database, I 
 
 ## Installation
 
+postgres
+
 ```bash
 create database test_demo;
 ```
 
 ```bash
 $ npm install
-$ npx prisma migrate dev --name init
+$ npx prisma migrate dev --name init --schema=./src/database/schema.prisma
 ```
 
 ## Running the app
