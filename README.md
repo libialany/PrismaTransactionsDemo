@@ -24,7 +24,7 @@ $ npx prisma migrate dev --name init --schema=./src/database/schema.prisma
 # development
 $ npm run start
 
-# watch mode
+# watch mode THIS
 $ npm run start:dev
 
 # production mode
